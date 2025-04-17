@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论文降重降AI工具</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>论文降重降AI工具</h1>
+            <p>一站式解决论文重复率高和AI检测率高的问题</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <h2>输入文本</h2>
+                <textarea id="input-text" placeholder="请在此处粘贴需要处理的论文文本..."></textarea>
+            </div>
+
+            <div class="options-section">
+                <h2>处理选项</h2>
+                
+                <div class="option-group">
+                    <h3>改写方法</h3>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="rewrite-method" value="synonym" checked> 同义词替换</label>
+                        <label><input type="checkbox" name="rewrite-method" value="restructure" checked> 句式重构</label>
+                        <label><input type="checkbox" name="rewrite-method" value="word_order" checked> 语序调整</label>
+                    </div>
+                </div>
+
+                <div class="option-group">
+                    <h3>AI检测规避方法</h3>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="avoid-method" value="human_features" checked> 增加人类写作特征</label>
+                        <label><input type="checkbox" name="avoid-method" value="sentence_diversity" checked> 增加句子多样性</label>
+                        <label><input type="checkbox" name="avoid-method" value="reduce_patterns" checked> 减少AI模式</label>
+                        <label><input type="checkbox" name="avoid-method" value="adjust_perplexity" checked> 调整困惑度</label>
+                    </div>
+                </div>
+
+                <div class="option-group">
+                    <h3>处理强度</h3>
+                    <div class="slider-container">
+                        <input type="range" id="intensity-slider" min="0.1" max="1.0" step="0.1" value="0.5">
+                        <span id="intensity-value">0.5</span>
+                    </div>
+                    <p class="slider-description">较低的强度保持更多原文内容，较高的强度改动更多但可能影响可读性</p>
+                </div>
+
+                <button id="process-btn" class="primary-btn">开始处理</button>
+            </div>
+
+            <div class="output-section">
+                <h2>处理结果</h2>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="final">最终结果</button>
+                    <button class="tab-btn" data-tab="rewritten">改写结果</button>
+                    <button class="tab-btn" data-tab="cleaned">清洗结果</button>
+                    <button class="tab-btn" data-tab="original">原始文本</button>
+                </div>
+                <div class="tab-content">
+                    <div id="final-tab" class="tab-pane active">
+                        <textarea id="final-text" readonly placeholder="最终处理结果将显示在这里..."></textarea>
+                    </div>
+                    <div id="rewritten-tab" class="tab-pane">
+                        <textarea id="rewritten-text" readonly placeholder="改写结果将显示在这里..."></textarea>
+                    </div>
+                    <div id="cleaned-tab" class="tab-pane">
+                        <textarea id="cleaned-text" readonly placeholder="清洗结果将显示在这里..."></textarea>
+                    </div>
+                    <div id="original-tab" class="tab-pane">
+                        <textarea id="original-text" readonly placeholder="原始文本将显示在这里..."></textarea>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button id="copy-btn" class="secondary-btn">复制结果</button>
+                    <button id="download-btn" class="secondary-btn">下载结果</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>论文降重降AI工具 &copy; 2025</p>
+        </footer>
+    </div>
+
+    <div id="loading-overlay" class="hidden">
+        <div class="spinner"></div>
+        <p>正在处理中，请稍候...</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
