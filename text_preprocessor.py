@@ -1,3 +1,4 @@
+import os  # 添加这行
 import jieba
 import jieba.posseg as pseg
 import re
@@ -5,10 +6,14 @@ import nltk
 from nltk.tokenize import sent_tokenize
 
 # 下载NLTK必要的数据包
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt')
+# 移除以下代码
+# try:
+#     nltk.data.find('tokenizers/punkt')
+# except LookupError:
+#     nltk.download('punkt')
+
+# 添加以下代码
+nltk.data.path.append(os.path.join(os.path.dirname(__file__), 'nltk_data'))
 
 class TextPreprocessor:
     """
@@ -21,34 +26,16 @@ class TextPreprocessor:
         # jieba.load_userdict("user_dict.txt")
         pass
     
+    # 设置 NLTK 数据路径
+    nltk_data_path = os.path.join(os.path.dirname(__file__), 'nltk_data')
+    nltk.data.path.append(nltk_data_path)
+
+    # 修复正则表达式中的转义字符
     def clean_text(self, text):
-        """
-        清洗文本，去除多余空格、特殊字符等
-        
-        参数:
-        text (str): 输入文本
-        
-        返回:
-        str: 清洗后的文本
-        """
         if not text:
             return ""
-            
-        # 替换多个空格为单个空格
-        text = re.sub(r'\s+', ' ', text)
-        
-        # 去除文本中的HTML标签
-        text = re.sub(r'<.*?>', '', text)
-        
-        # 去除URL
-        text = re.sub(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', '', text)
-        
-        # 去除特殊字符，但保留中文标点
-        text = re.sub(r'[^\u4e00-\u9fa5a-zA-Z0-9，。！？、；：""''（）【】《》\s]', '', text)
-        
-        # 去除首尾空格
-        text = text.strip()
-        
+        text = re.sub(r'[^\u4e00-\u9fa5a-zA-Z0-9，。！？、；："'
+                      r'"''（）【】《》\\s]', '', text)  # 修改为\\s
         return text
     
     def split_paragraphs(self, text):
