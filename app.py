@@ -4,6 +4,7 @@ import sys
 from text_preprocessor import TextPreprocessor
 from text_rewriter import TextRewriter
 from ai_detection_avoider import AIDetectionAvoider
+import nltk
 
 app = Flask(__name__)
 
@@ -61,4 +62,11 @@ def process():
         return jsonify({'error': f'处理文本时出错: {str(e)}'}), 500
 
 if __name__ == '__main__':
+    # 设置 NLTK 数据路径为当前项目目录
+    nltk_data_path = os.path.join(os.path.dirname(__file__), 'nltk_data')
+    os.makedirs(nltk_data_path, exist_ok=True)
+    nltk.data.path.append(nltk_data_path)
+    nltk.download('punkt', download_dir=nltk_data_path)
+
+    # 启动 Flask 应用
     app.run(host='0.0.0.0', port=5000, debug=True)
